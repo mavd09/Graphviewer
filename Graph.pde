@@ -1,18 +1,29 @@
 import java.util.*;
 
 public class Graph {
-  TreeMap<Node, TreeSet<Edge>> graph;
+  TreeMap<Node, TreeSet<Integer>> graph;
+  TreeMap<Integer, Edge> edges;
   
   Graph() {
-    graph = new TreeMap<Node, TreeSet<Edge>>();
+    graph = new TreeMap<Node, TreeSet<Integer>>();
+    edges = new TreeMap<Integer, Edge>();
   }
   
-  public void removeEdge(Edge edge) {
-    graph.get(edge.getFrom()).remove(edge);
+  public void removeEdge(Integer edgeId) {
+    Edge edge = edges.remove(edgeId); 
+    graph.get(edge.getFrom()).remove(edge.getEdgeId());
+    if(edge.getDirected() == false) {
+      graph.get(edge.getTo()).remove(edge.getEdgeId());  
+    }
+    edge.setDeleted(true);
   }
   
   public void addEdge(Edge edge) {
-    graph.get(edge.getFrom()).add(edge);
+    graph.get(edge.getFrom()).add(edge.getEdgeId());
+    if(edge.getDirected() == false) {
+      graph.get(edge.getTo()).add(edge.getEdgeId());  
+    }
+    edges.put(edge.getEdgeId(), edge);
   }
   
   public void removeNode(Node node) {
@@ -20,7 +31,8 @@ public class Graph {
   }
   
   public void addNode(Node node) {
-    graph.put(node, new TreeSet<Edge>()); 
+    graph.put(node, new TreeSet<Integer>()); 
   }
+  
   
 }
