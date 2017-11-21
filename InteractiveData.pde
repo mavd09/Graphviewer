@@ -1,5 +1,6 @@
 public static class InteractiveData {
   public static final float RADIUS_NODE = 10;
+  private PFont font1; 
   private static InteractiveData instance;
   private int edgeCounter, nodeCounter, mode;
   private Node lastPicked;

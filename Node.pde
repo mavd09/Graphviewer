@@ -20,10 +20,9 @@ public class Node extends InteractiveFrame implements Comparable<Node> {
     else
       pg.fill(100, 100, 255);
     pg.ellipse(0,0,2*radius,2*radius);
-    pg.textFont(loadFont("FreeSans-36.vlw"), 12);
     pg.strokeWeight(1);
     pg.fill(0, 0, 20);
-    pg.text("" + nodeId, -radius, radius, 0);
+    pg.text("" + nodeId, -radius/2+1, radius/2-1, 0);
     pg.popStyle();
   }
   

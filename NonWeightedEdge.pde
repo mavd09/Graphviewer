@@ -17,7 +17,8 @@ public class NonWeightedEdge extends InteractiveFrame implements Edge, Comparabl
     pg.pushStyle();
     strokeWeight(3);
     stroke(255);
-    line(from.position().x(), from.position().y(), to.position().x(), to.position().y());
+    line(from.position().x(), from.position().y(), -1, to.position().x(), to.position().y(), -1);
+    
     pg.popStyle();
   }
 
