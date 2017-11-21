@@ -13,8 +13,7 @@ public class NonWeightedEdge extends InteractiveFrame implements Edge, Comparabl
   }
   
   void display(PGraphics pg) {
-    if(deleted) return;
-    System.out.println("drawing");
+    if(deleted) return ;
     pg.pushStyle();
     strokeWeight(3);
     stroke(255);

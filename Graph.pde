@@ -3,6 +3,7 @@ import java.util.*;
 public class Graph {
   TreeMap<Node, TreeSet<Integer>> graph;
   TreeMap<Integer, Edge> edges;
+  Node lastPicked;
   
   Graph() {
     graph = new TreeMap<Node, TreeSet<Integer>>();
