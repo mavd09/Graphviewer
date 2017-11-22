@@ -22,12 +22,15 @@ public class Event {
 
 public class EventManager {
   private LinkedList<Event> queueEvent;
+  private QueueInteractiveData queueInteractiveData;
   int time;
-  EventManager() {
+  EventManager(Scene scene) {
+    queueInteractiveData = new QueueInteractiveData(scene);
     reset();
   }
   public void reset() {
     queueEvent = new LinkedList<Event>();
+    queueInteractiveData.reset();
     time = Utility.TIME_BETWEEN_EVENTS;
   }
   public void addEvent(Event event) {
@@ -54,10 +57,12 @@ public class EventManager {
       }
       case VISITED: {
         event.getElement().setColor(Utility.VISITED_COLOR);
+        queueInteractiveData.removeNode();
         break; 
       }
       case QUEUED: {
         event.getElement().setColor(Utility.QUEUED_COLOR);
+        queueInteractiveData.addNode((Node)event.getElement());
         break; 
       }
       default: {

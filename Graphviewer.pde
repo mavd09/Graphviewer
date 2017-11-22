@@ -22,9 +22,9 @@ void setup() {
   queueCanvas = createGraphics(WIDTH_QUEUE, HEIGHT_QUEUE, P2D);
   queueScene = new Scene(this, queueCanvas, queueX, queueY);
   
-  graph = new Graph(queueScene);
+  graph = new Graph();
   
-  eventManager = new EventManager();
+  eventManager = new EventManager(queueScene);
   
   mainScene.setAxesVisualHint(false); // hide axis
   mainScene.setGridVisualHint(false); // hide grid
@@ -32,6 +32,9 @@ void setup() {
   queueScene.setAxesVisualHint(false); // hide axis
   queueScene.setGridVisualHint(false); // hide grid
   
+  queueScene.eye().lookAt(new Vec(0,0));
+  rectMode(CENTER);
+  queueScene.eye().interpolateToZoomOnRegion(new Rect(800,55,20,10));
   
   /*Node node1 = new Node(1,10, graph, mainScene);
   Node node2 = new Node(2,10, graph, mainScene);

@@ -4,12 +4,9 @@ public class Graph {
   TreeMap<Node, TreeSet<Integer>> graph;
   TreeMap<Integer, Edge> edges;
   
-  QueueInteractiveData queueInteractiveData;
-  
-  Graph(Scene scene) {
+  Graph() {
     graph = new TreeMap<Node, TreeSet<Integer>>();
     edges = new TreeMap<Integer, Edge>();
-    queueInteractiveData = new QueueInteractiveData(scene);
   }
   
   public void removeEdge(Integer edgeId) {
@@ -46,7 +43,7 @@ public class Graph {
     eventManager.addEvent(new Event(source, EventType.QUEUED));
     q.add(source);
     seen.add(source);
-    queueInteractiveData.addNode(source);
+    source.minDistance = 0;
     while(q.size() > 0) {
       Node current = q.poll();
       eventManager.addEvent(new Event(current, EventType.PROCESSING));
@@ -61,7 +58,7 @@ public class Graph {
           eventManager.addEvent(new Event(neighbor, EventType.QUEUED));
           q.add(neighbor);
           seen.add(neighbor);
-          queueInteractiveData.addNode(neighbor);
+          neighbor.minDistance = current.minDistance+1;
         }
         eventManager.addEvent(new Event(edges.get(edgeId), EventType.DEFAULT_EDGE));
       }

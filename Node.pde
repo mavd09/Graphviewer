@@ -1,5 +1,5 @@
 public class Node extends InteractiveFrame implements InteractiveElement, Comparable<Node> {
-  int nodeId;
+  int nodeId, minDistance;
   Graph graph;
   Scene scene;
   color nodeColor;
@@ -8,6 +8,7 @@ public class Node extends InteractiveFrame implements InteractiveElement, Compar
      this.nodeId = nodeId;
      this.graph = graph;
      this.scene = scene;
+     minDistance = -1;
      nodeColor = Utility.DEFAULT_NODE_COLOR;
      setShape("display");
      setClickBinding(LEFT, 1, "play");
