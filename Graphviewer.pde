@@ -5,6 +5,7 @@ import remixlab.bias.event.*;
 Scene mainScene, queueScene;
 PGraphics mainCanvas, queueCanvas;
 Graph graph;
+EventManager eventManager;
 
 final int WIDTH = 1200, HEIGHT = 600;
 final int WIDTH_QUEUE = WIDTH, HEIGHT_QUEUE = 100;
@@ -23,6 +24,7 @@ void setup() {
   
   graph = new Graph(queueScene);
   
+  eventManager = new EventManager();
   
   mainScene.setAxesVisualHint(false); // hide axis
   mainScene.setGridVisualHint(false); // hide grid
@@ -55,11 +57,13 @@ void draw() {
   queueScene.drawFrames();
   queueScene.endDraw();
   queueScene.display();
+  
+  eventManager.processEvent();
 }
 
 void mouseClicked() {
-  if(InteractiveData.getInstance().getMode() == 1) {
-    Node node = new Node(InteractiveData.getInstance().getNodeCounter(), InteractiveData.getInstance().RADIUS_NODE, graph, mainScene);
+  if(InteractiveData.getInstance().getMode() == Mode.INSERT_NODE) {
+    Node node = new Node(InteractiveData.getInstance().getNodeCounter(), graph, mainScene);
     graph.addNode(node);
     InteractiveData.getInstance().setNodeCounter();
     InteractiveData.getInstance().reset();
@@ -68,14 +72,14 @@ void mouseClicked() {
 
 void keyPressed() {
   if(key == 'n') {
-    InteractiveData.getInstance().setMode(1);
+    InteractiveData.getInstance().setMode(Mode.INSERT_NODE);
   } else if(key == 'e') {
-    InteractiveData.getInstance().setMode(2);
+    InteractiveData.getInstance().setMode(Mode.INSERT_EDGE);
   } else {
-    InteractiveData.getInstance().setMode(0);
+    InteractiveData.getInstance().setMode(Mode.EMPTY);
   }
   if(key == 'b') {
-    graph.bfs(InteractiveData.getInstance().getLastPicked());
+    graph.bfs(InteractiveData.getInstance().getLastPicked(), eventManager);
   }
   
 }

@@ -37,31 +37,35 @@ public class Graph {
     graph.put(node, new TreeSet<Integer>()); 
   }
   
-  public void bfs(Node source) {
+  public void bfs(Node source, EventManager eventManager) {
     if(source == null) {  
       return;
     }
     TreeSet<Node> seen = new TreeSet<Node>();
     LinkedList<Node> q = new LinkedList<Node>();
+    eventManager.addEvent(new Event(source, EventType.QUEUED));
     q.add(source);
     seen.add(source);
     queueInteractiveData.addNode(source);
     while(q.size() > 0) {
       Node current = q.poll();
-      System.out.println(current.nodeId);
-      delay(2000);
+      eventManager.addEvent(new Event(current, EventType.PROCESSING));
       for(Integer edgeId : graph.get(current)) {
+        eventManager.addEvent(new Event(edges.get(edgeId), EventType.PROCESSING));
         Edge edge = edges.get(edgeId);
         Node neighbor = edge.getFrom();
         if(neighbor.compareTo(current) == 0) {
           neighbor = edge.getTo();
         }
         if(seen.contains(neighbor) == false) {
+          eventManager.addEvent(new Event(neighbor, EventType.QUEUED));
           q.add(neighbor);
           seen.add(neighbor);
           queueInteractiveData.addNode(neighbor);
         }
+        eventManager.addEvent(new Event(edges.get(edgeId), EventType.DEFAULT_EDGE));
       }
+      eventManager.addEvent(new Event(current,EventType.VISITED));
     }
   }
   

@@ -2,39 +2,31 @@ public class NonWeightedEdge extends InteractiveFrame implements Edge, Comparabl
   Node from, to;
   int edgeId;
   boolean directed, deleted;
+  color edgeColor;
   NonWeightedEdge(int edgeId, Node from, Node to, boolean directed, Scene scene) {
     super(scene);
     this.from = from;
     this.to = to;
     this.edgeId = edgeId;
     this.directed = directed;
+    edgeColor = Utility.DEFAULT_EDGE_COLOR;
     setShape("display");
     deleted = false;
   }
   
-  float dist(float x1, float y1, float x2, float y2) {
-    return sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) ); 
-  }
-  
-  Point getPointAlong(float xFrom, float yFrom, float xTo, float yTo) {
-    float dist = this.dist( xFrom, yFrom, xTo, yTo );
-    float d2 = dist - InteractiveData.RADIUS_NODE;
-    float xc = xFrom - ( (d2)*(xFrom - xTo) ) / dist;
-    float yc = yFrom - ( (d2)*(yFrom - yTo) ) / dist;
-    return new Point(xc, yc);
-  }
-  
-  
   void display(PGraphics pg) {
     if(deleted) return;
-    
-    
     pg.pushStyle();
     pg.strokeWeight(3);
-    pg.stroke(255);
-    Point a = getPointAlong(from.position().x(), from.position().y(), to.position().x(), to.position().y());
-    Point b = getPointAlong(to.position().x(), to.position().y(), from.position().x(), from.position().y());
-    pg.line(b.x(), b.y(), a.x(), a.y());
+    pg.stroke(edgeColor);
+    Point a = Utility.getPointAlong(to.position().x(), to.position().y(), from.position().x(), from.position().y());
+    Point b = Utility.getPointAlong(from.position().x(), from.position().y(), to.position().x(), to.position().y());
+    pg.line(a.x(), a.y(), b.x(), b.y());
+    if(directed) {
+      pg.strokeWeight(0);
+      pg.fill(Utility.DEFAULT_ARROW_COLOR);
+      pg.ellipse(b.x(),b.y(),2.0*Utility.RADIUS_ARROW,2.0*Utility.RADIUS_ARROW);
+    }
     pg.popStyle();
   }
 
@@ -56,9 +48,11 @@ public class NonWeightedEdge extends InteractiveFrame implements Edge, Comparabl
   public int getEdgeId() {
     return edgeId;
   }
-  
   public boolean getDirected() {
     return directed; 
+  }
+  public void setColor(color newColor) {
+    edgeColor = newColor;
   }
   
   @Override

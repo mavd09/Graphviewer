@@ -1,8 +1,14 @@
+public static enum Mode {
+  EMPTY,
+  INSERT_NODE,
+  INSERT_EDGE,
+  RUN
+}
+
 public static class InteractiveData {
-  public static final float RADIUS_NODE = 10;
-  private PFont font1; 
   private static InteractiveData instance;
-  private int edgeCounter, nodeCounter, mode;
+  private Mode mode;
+  private int edgeCounter, nodeCounter;
   private Node lastPicked;
   
   private InteractiveData() {
@@ -10,22 +16,22 @@ public static class InteractiveData {
   }
   
   void reset() {
-    mode = 0;
+    mode = Mode.EMPTY;
     lastPicked = null;
   }
   
   void resetAll() {
-    mode = 0;
+    mode = Mode.EMPTY;
     edgeCounter = 0;
     nodeCounter = 0;
     lastPicked = null;
   }
   
-  int getMode() {
+  Mode getMode() {
     return mode;
   }
   
-  void setMode(int mode) {
+  void setMode(Mode mode) {
     this.mode = mode;
   }
   

@@ -1,4 +1,4 @@
-public interface Edge { 
+public interface Edge extends InteractiveElement { 
   public Node getFrom();
   public Node getTo();
   public void setFrom(Node from);
