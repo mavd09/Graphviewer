@@ -12,13 +12,29 @@ public class NonWeightedEdge extends InteractiveFrame implements Edge, Comparabl
     deleted = false;
   }
   
+  float dist(float x1, float y1, float x2, float y2) {
+    return sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) ); 
+  }
+  
+  Point getPointAlong(float xFrom, float yFrom, float xTo, float yTo) {
+    float dist = this.dist( xFrom, yFrom, xTo, yTo );
+    float d2 = dist - InteractiveData.RADIUS_NODE;
+    float xc = xFrom - ( (d2)*(xFrom - xTo) ) / dist;
+    float yc = yFrom - ( (d2)*(yFrom - yTo) ) / dist;
+    return new Point(xc, yc);
+  }
+  
+  
   void display(PGraphics pg) {
-    if(deleted) return ;
-    pg.pushStyle();
-    strokeWeight(3);
-    stroke(255);
-    line(from.position().x(), from.position().y(), -1, to.position().x(), to.position().y(), -1);
+    if(deleted) return;
     
+    
+    pg.pushStyle();
+    pg.strokeWeight(3);
+    pg.stroke(255);
+    Point a = getPointAlong(from.position().x(), from.position().y(), to.position().x(), to.position().y());
+    Point b = getPointAlong(to.position().x(), to.position().y(), from.position().x(), from.position().y());
+    pg.line(b.x(), b.y(), a.x(), a.y());
     pg.popStyle();
   }
 

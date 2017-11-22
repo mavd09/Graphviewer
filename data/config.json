@@ -14,7 +14,7 @@
     ]
   },
   "paths": [],
-  "ortho": false,
+  "ortho": true,
   "radius": 100,
   "visualHints": 0
 }

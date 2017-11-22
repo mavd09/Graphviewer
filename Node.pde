@@ -31,7 +31,7 @@ public class Node extends InteractiveFrame implements Comparable<Node> {
       if(InteractiveData.getInstance().getLastPicked() == null || InteractiveData.getInstance().getLastPicked().compareTo(this) == 0) {
         InteractiveData.getInstance().setLastPicked(this);
       } else {
-        Edge edge = new NonWeightedEdge(InteractiveData.getInstance().getEdgeCounter(), InteractiveData.getInstance().getLastPicked(), this, true, scene);
+        Edge edge = new NonWeightedEdge(InteractiveData.getInstance().getEdgeCounter(), InteractiveData.getInstance().getLastPicked(), this, false, scene);
         InteractiveData.getInstance().setEdgeCounter();
         graph.addEdge(edge);
         InteractiveData.getInstance().reset();
