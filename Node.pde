@@ -29,16 +29,15 @@ public class Node extends InteractiveFrame implements InteractiveElement, Compar
   }
   
   public void play(ClickEvent event) {
-    if(InteractiveData.getInstance().getMode() == Mode.INSERT_EDGE) {
-      if(InteractiveData.getInstance().getLastPicked() == null || InteractiveData.getInstance().getLastPicked().compareTo(this) == 0) {
-        InteractiveData.getInstance().setLastPicked(this);
-      } else {
-        Edge edge = new NonWeightedEdge(InteractiveData.getInstance().getEdgeCounter(), InteractiveData.getInstance().getLastPicked(), this, false, scene);
-        InteractiveData.getInstance().setEdgeCounter();
-        graph.addEdge(edge);
-        InteractiveData.getInstance().reset();
-      }
+    if(InteractiveData.getInstance().getMode() == Mode.INSERT_EDGE && InteractiveData.getInstance().getLastPicked() != null && InteractiveData.getInstance().getLastPicked().compareTo(this) != 0 ) {
+      Edge edge = new NonWeightedEdge(InteractiveData.getInstance().getEdgeCounter(), InteractiveData.getInstance().getLastPicked(), this, false, scene);
+      InteractiveData.getInstance().setEdgeCounter();
+      graph.addEdge(edge);
+      InteractiveData.getInstance().reset();
+      InteractiveData.getInstance().setLastPicked(null);
+      return ;
     }
+    InteractiveData.getInstance().setLastPicked(this);
   }
   
   public void setColor(color newColor) {

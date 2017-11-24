@@ -2,6 +2,8 @@ public static enum EventType {
   DEFAULT_EDGE,
   PROCESSING,
   VISITED,
+  ADD_NODE,
+  REMOVE_NODE,
   QUEUED
 }
 
@@ -22,19 +24,20 @@ public class Event {
 
 public class EventManager {
   private LinkedList<Event> queueEvent;
-  private QueueInteractiveData queueInteractiveData;
+  private DataStructureInteractive dataStructureInteractive;
   int time;
-  EventManager(Scene scene) {
-    queueInteractiveData = new QueueInteractiveData(scene);
+  EventManager() {
     reset();
   }
   public void reset() {
     queueEvent = new LinkedList<Event>();
-    queueInteractiveData.reset();
     time = Utility.TIME_BETWEEN_EVENTS;
   }
   public void addEvent(Event event) {
     queueEvent.add(event);
+  }
+  public void setDataStructure(DataStructureInteractive newDataStructureInteractive) {
+    dataStructureInteractive = newDataStructureInteractive;
   }
   public void processEvent() {
     if( queueEvent.size() == 0 ) {
@@ -57,12 +60,19 @@ public class EventManager {
       }
       case VISITED: {
         event.getElement().setColor(Utility.VISITED_COLOR);
-        queueInteractiveData.removeNode();
+        
         break; 
+      }
+      case REMOVE_NODE: {
+        dataStructureInteractive.removeNode();
+        break;
+      }
+      case ADD_NODE: {
+        dataStructureInteractive.addNode((Node)event.getElement());
+        break;
       }
       case QUEUED: {
         event.getElement().setColor(Utility.QUEUED_COLOR);
-        queueInteractiveData.addNode((Node)event.getElement());
         break; 
       }
       default: {

@@ -1,8 +1,8 @@
-public class QueueInteractiveData extends InteractiveFrame {
+public class QueueInteractive extends InteractiveFrame implements DataStructureInteractive {
   private LinkedList<Integer> nodesInQueue;
-  private TreeMap<Integer,Integer> minimumDistance;
+  //private TreeMap<Integer,Integer> minimumDistance;
   
-  QueueInteractiveData(Scene scene) {
+  QueueInteractive(Scene scene) {
     super(scene);
     reset();
     setShape("display");
@@ -10,12 +10,12 @@ public class QueueInteractiveData extends InteractiveFrame {
   
   void reset() {
     nodesInQueue = new LinkedList<Integer>();
-    minimumDistance = new TreeMap<Integer, Integer>();
+    //minimumDistance = new TreeMap<Integer, Integer>();
   }
   
   void addNode(Node node) {
     nodesInQueue.add(node.nodeId);
-    minimumDistance.put(node.nodeId,node.minDistance);
+    //minimumDistance.put(node.nodeId,node.minDistance);
   }
   
   void removeNode() {
@@ -33,17 +33,17 @@ public class QueueInteractiveData extends InteractiveFrame {
       pg.fill(#FF9100);
       pg.text(""+ nodesInQueue.get(i),i*side + 2*i + side/3, side - side/3);
     }
-    int i = 0;
+    /*int i = 0;
     for(Map.Entry<Integer,Integer> entry : minimumDistance.entrySet()) {
       Integer key = entry.getKey();
       Integer value = entry.getValue();
       pg.fill(#058B00);
       pg.rect(i*side+2*i, side+2, side, side);
       pg.fill(#FF9100);
-      pg.text(""+ value,i*side + 2*i + side/3, 2*side - side/3);
-      pg.text(""+ key,i*side + 2*i + side/3, 3*side - side/3);
+      pg.text(""+ value,i*side + 2*i + side/3, 2+2*side - side/3);
+      pg.text(""+ key,i*side + 2*i + side/3, 2+3*side - side/3);
       i++;
-    }
+    }*/
     pg.popStyle();
   }
 }
