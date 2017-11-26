@@ -1,10 +1,13 @@
 import remixlab.proscene.*;
+import remixlab.dandelion.core.*;
 import remixlab.dandelion.geom.*;
 import remixlab.bias.event.*;
 
-final int WIDTH = 1200, HEIGHT = 600;
+final int WIDTH = 1920, HEIGHT = 1000;
 final int WIDTH_DATA_STRUCTURE = WIDTH, HEIGHT_DATA_STRUCTURE = 100;
 final int POSITION_DATA_STRUCTURE_X = WIDTH - WIDTH_DATA_STRUCTURE, POSITION_DATA_STRUCTURE_Y = HEIGHT - HEIGHT_DATA_STRUCTURE;
+
+GenericFrame[] gfs;
 
 Scene mainScene, dataStructureScene;
 PGraphics mainCanvas, dataStructureCanvas;
@@ -17,8 +20,18 @@ void settings() {
 }
 
 void setup() {
-  mainCanvas = createGraphics(WIDTH, HEIGHT, P2D);
+  mainCanvas = createGraphics(WIDTH, HEIGHT-100, P2D);
   mainScene = new Scene(this, mainCanvas);
+  
+  gfs = new GenericFrame[] {
+    new GenericFrame(mainScene, new Vec(0, 0, 200) ),
+    new GenericFrame(mainScene, new Vec(5000, 5000, 200) ),
+    new GenericFrame(mainScene, new Vec(-25, 20, 200) ),
+    new GenericFrame(mainScene, new Vec(-25, 75, 200) )
+  };
+  
+  mainScene.disableKeyboardAgent();
+  mainScene.eye().interpolateTo(gfs[0], 1.0 );
   
   dataStructureCanvas = createGraphics(WIDTH_DATA_STRUCTURE, HEIGHT_DATA_STRUCTURE, P2D);
   dataStructureScene = new Scene(this, dataStructureCanvas, POSITION_DATA_STRUCTURE_X, POSITION_DATA_STRUCTURE_Y);
@@ -50,8 +63,25 @@ void setup() {
 
 void draw() {
   mainScene.beginDraw();
+  
   mainCanvas.background(0);
+  
+  mainCanvas.pushStyle();
+  mainCanvas.stroke(0,255,0);
+  mainCanvas.strokeWeight(5);
+  mainCanvas.noFill();
+  mainCanvas.rectMode(CENTER);
+  mainCanvas.textSize(100);
+  
+  mainCanvas.text("Breadth First Search", 0-500, 0-300);
+  mainCanvas.rect(0,0,1800, 800);
+  
+  mainCanvas.text("Depth First Search", 5000-450, 5000-300);
+  mainCanvas.rect(5000,5000,1800,800);
+  
+  mainCanvas.popStyle();
   mainScene.drawFrames();
+  
   mainScene.endDraw();
   mainScene.display();
   
@@ -80,7 +110,14 @@ void mouseClicked() {
 }
 
 void keyPressed() {
-  if(key == 'n') {
+  if( key == '1' ) {
+    mainScene.eye().interpolateTo(gfs[0], 1.0 );
+  } else if( key == '2' ) {
+    mainScene.eye().interpolateTo( gfs[1], 1.0 );
+  } else if( key == '3' ) {
+    mainScene.eye().fitScreenRegion(new Rect(2500,2500,5000,5000));
+    mainScene.eye().interpolateToFitScene();
+  } else if(key == 'n') {
     InteractiveData.getInstance().setMode(Mode.INSERT_NODE);
   } else if(key == 'e') {
     InteractiveData.getInstance().setMode(Mode.INSERT_EDGE);

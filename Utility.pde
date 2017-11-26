@@ -1,9 +1,9 @@
 public static class Utility {
   
-  public static final float RADIUS_NODE = 10;
+  public static final float RADIUS_NODE = 50;
   public static final float RADIUS_ARROW = 3;
   
-  public static final int TIME_BETWEEN_EVENTS = 50;
+  public static final int TIME_BETWEEN_EVENTS = 25;
   
   public static final color DEFAULT_NODE_COLOR = #148AF0;
   public static final color DEFAULT_EDGE_COLOR = #FFFFFF;
