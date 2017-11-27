@@ -42,7 +42,7 @@ void setup() {
     new GenericFrame(mainScene, new Vec(0, 5000) )
   };
   
-  mainScene.eye().interpolateTo(gfs[0], 1.0 );
+  mainScene.eye().interpolateTo(genericFrames[0], 1.0 );
   
   graph = new Graph();
   
@@ -88,7 +88,7 @@ void draw() {
   mainScene.display();
   
   dataStructureScene.beginDraw();
-  dataStructureCanvas.background(255);
+  dataStructureCanvas.background(100);
   dataStructureScene.pg().fill(255, 0, 255, 125);
   dataStructureScene.drawFrames();
   dataStructureScene.endDraw();
@@ -97,12 +97,13 @@ void draw() {
   dataStructureScene.showAll();
   
   resultScene.beginDraw();
-  resultCanvas.background(0,0,255);
+  resultCanvas.background(150);
   resultScene.endDraw();
   resultScene.display();
   
   pseudocodeScene.beginDraw();
-  pseudocodeCanvas.background(0,255,0);
+  pseudocodeCanvas.background(200);
+  pseudocodeScene.drawFrames();
   pseudocodeScene.endDraw();
   pseudocodeScene.display();
   
@@ -134,7 +135,8 @@ void keyPressed() {
   } else if(key == 'b') {
     if( InteractiveData.getInstance().getLastPicked() != null ) {
       eventManager.setDataStructure(new QueueInteractive(dataStructureScene));
-      solver = new BreadthFirstSearch( graph, InteractiveData.getInstance().getLastPicked(), eventManager );
+      solver = new BreadthFirstSearch( pseudocodeScene, graph, InteractiveData.getInstance().getLastPicked(), eventManager );
+      eventManager.setSolver(solver);
       solver.solve();
     }
   } else if(key == 'd') {

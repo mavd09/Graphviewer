@@ -1,5 +1,6 @@
 public static enum EventType {
   DEFAULT_EDGE,
+  CODE,
   PROCESSING,
   VISITED,
   ADD_NODE,
@@ -10,9 +11,16 @@ public static enum EventType {
 public class Event {
   private InteractiveElement element;
   private EventType eventType;
+  private int lineOfCode;
   Event(InteractiveElement element, EventType eventType) {
     this.element = element;
     this.eventType = eventType;
+    lineOfCode = -1;
+  }
+  Event(int lineOfCode, EventType eventType) {
+    element = null;
+    this.eventType = eventType;
+    this.lineOfCode = lineOfCode;
   }
   InteractiveElement getElement() {
     return element;
@@ -25,6 +33,7 @@ public class Event {
 public class EventManager {
   private LinkedList<Event> queueEvent;
   private DataStructureInteractive dataStructureInteractive;
+  private Solver solver;
   int time;
   EventManager() {
     reset();
@@ -39,6 +48,9 @@ public class EventManager {
   public void setDataStructure(DataStructureInteractive newDataStructureInteractive) {
     dataStructureInteractive = newDataStructureInteractive;
   }
+  public void setSolver( Solver solver ) {
+    this.solver = solver;
+  }
   public void processEvent() {
     if( queueEvent.size() == 0 ) {
       return ;
@@ -51,7 +63,7 @@ public class EventManager {
     Event event = queueEvent.poll();
     switch(event.getEventType()) {
       case DEFAULT_EDGE: {
-        event.getElement().setColor(Utility.DEFAULT_EDGE_COLOR);        
+        event.getElement().setColor(Utility.DEFAULT_EDGE_COLOR); 
         break;
       }
       case PROCESSING: {
@@ -74,6 +86,10 @@ public class EventManager {
       case QUEUED: {
         event.getElement().setColor(Utility.QUEUED_COLOR);
         break; 
+      }
+      case CODE: {
+        solver.setCurrentLine(event.lineOfCode);
+        break;
       }
       default: {
         break;
