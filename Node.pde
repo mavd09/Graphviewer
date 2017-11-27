@@ -32,7 +32,8 @@ public class Node extends InteractiveFrame implements InteractiveElement, Compar
     if(InteractiveData.getInstance().getMode() == Mode.INSERT_EDGE && InteractiveData.getInstance().getLastPicked() != null && InteractiveData.getInstance().getLastPicked().compareTo(this) != 0 ) {
       Edge edge = null;
       if( graph.getWeightedEdges() ) {
-        
+        int weight = Utility.random.nextInt(10);
+        edge = new WeightedEdge(InteractiveData.getInstance().getEdgeCounter(), InteractiveData.getInstance().getLastPicked(), this, weight, graph.getDirectedEdges(), scene);
       } else {
         edge = new NonWeightedEdge(InteractiveData.getInstance().getEdgeCounter(), InteractiveData.getInstance().getLastPicked(), this, graph.getDirectedEdges(), scene);
       }

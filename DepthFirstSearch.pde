@@ -17,7 +17,7 @@ public class DepthFirstSearch extends InteractiveFrame implements Solver {
     "       add v to stack S"
   };
   
-  public DepthFirstSearch( Scene scene, Graph graph, Node source, EventManager eventManager ) {
+  public DepthFirstSearch( Scene scene, Graph graph, EventManager eventManager ) {
     super(scene);
     this.graph = graph;
     this.eventManager = eventManager;
@@ -31,6 +31,7 @@ public class DepthFirstSearch extends InteractiveFrame implements Solver {
   
   void display(PGraphics pg) {
     pg.pushStyle();
+    pg.background(200);
     pg.strokeWeight(1);
     pg.stroke(082E00);
     int side = 16;

@@ -1,5 +1,5 @@
 public interface DataStructureInteractive {
-  public void addNode(Node node);
-  public void removeNode();
+  public void add(Object obj);
+  public void remove();
   public void display(PGraphics pg);
 }

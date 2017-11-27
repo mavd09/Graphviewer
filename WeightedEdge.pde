@@ -1,13 +1,14 @@
-public class NonWeightedEdge extends InteractiveFrame implements Edge, Comparable<NonWeightedEdge> {
+public class WeightedEdge extends InteractiveFrame implements Edge, Comparable<NonWeightedEdge> {
   Node from, to;
-  int edgeId;
+  int edgeId, weight;
   boolean directed, deleted;
   color edgeColor;
-  NonWeightedEdge(int edgeId, Node from, Node to, boolean directed, Scene scene) {
+  WeightedEdge(int edgeId, Node from, Node to, int weight, boolean directed, Scene scene) {
     super(scene);
     this.from = from;
     this.to = to;
     this.edgeId = edgeId;
+    this.weight = weight;
     this.directed = directed;
     edgeColor = Utility.DEFAULT_EDGE_COLOR;
     setShape("display");
@@ -27,6 +28,9 @@ public class NonWeightedEdge extends InteractiveFrame implements Edge, Comparabl
       pg.fill(Utility.DEFAULT_ARROW_COLOR);
       pg.ellipse(b.x(),b.y(),2.0*Utility.RADIUS_ARROW,2.0*Utility.RADIUS_ARROW);
     }
+    pg.fill(255);
+    pg.textSize(30);
+    pg.text(""+weight, b.x(), b.y());
     pg.popStyle();
   }
 
@@ -51,15 +55,16 @@ public class NonWeightedEdge extends InteractiveFrame implements Edge, Comparabl
   public boolean getDirected() {
     return directed; 
   }
+  public int getWeight() {
+    return weight;
+  }
+  public void setWeight(int weight) {
+    this.weight = weight;
+  }
   public void setColor(color newColor) {
     edgeColor = newColor;
   }
-  public int getWeight() {
-    return 1;
-  }
-  public void setWeight(int weight) {
-    
-  }
+  
   @Override
   public int compareTo(NonWeightedEdge otherEdge) {
     return edgeId - otherEdge.edgeId;

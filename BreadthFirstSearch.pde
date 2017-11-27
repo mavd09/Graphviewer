@@ -31,6 +31,7 @@ public class BreadthFirstSearch extends InteractiveFrame implements Solver {
   
   void display(PGraphics pg) {
     pg.pushStyle();
+    pg.background(200);
     pg.strokeWeight(1);
     pg.stroke(082E00);
     int side = 16;

@@ -145,7 +145,7 @@ void keyPressed() {
     graph.setWeightedEdges(false);
     mainScene.eye().interpolateTo(genericFrames[1], 1.0 );
     eventManager.setDataStructure(new StackInteractive(dataStructureScene));
-    solver = new DepthFirstSearch( pseudocodeScene, graph, InteractiveData.getInstance().getLastPicked(), eventManager );
+    solver = new DepthFirstSearch( pseudocodeScene, graph, eventManager );
     eventManager.setSolver(solver);
   } else if( key == '3' ) {
     graph.reset();
@@ -153,6 +153,9 @@ void keyPressed() {
     graph.setDirectedEdges(true);
     graph.setWeightedEdges(true);
     mainScene.eye().interpolateTo(genericFrames[2], 1.0 );
+    eventManager.setDataStructure(new HeapInteractive(dataStructureScene));
+    solver = new Dijkstra( pseudocodeScene, graph, eventManager );
+    eventManager.setSolver(solver);
   } else if(key == 'n') {
     InteractiveData.getInstance().setMode(Mode.INSERT_NODE);
   } else if(key == 'e') {
@@ -170,6 +173,8 @@ void keyPressed() {
   } else if( key == 'r' ) {
     graph.reset();
     resultInteractive.reset();
+  } else if( key == 'p' ){
+    eventManager.setPause();
   } else {
     InteractiveData.getInstance().setMode(Mode.EMPTY);
   }

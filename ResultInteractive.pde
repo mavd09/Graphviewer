@@ -33,7 +33,7 @@ public class ResultInteractive extends InteractiveFrame {
       pg.rect(i*side+2*i-50, side, side, side);
       pg.fill(#FF9100);
       pg.text(""+ key,i*side + 2*i + side/3 - 51, side-2);
-      pg.text(""+ value,i*side + 2*i + side/3 - 51, 2*side-1);
+      pg.text(""+ value,i*side + 2*i + side/3 - 51 - (value >= 10 ? 3 : 0), 2*side-1);
       i++;
     }
     pg.popStyle();

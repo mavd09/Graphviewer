@@ -4,6 +4,7 @@ public static enum EventType {
   PROCESSING,
   VISITED,
   ADD_NODE,
+  ADD_STATE,
   REMOVE_NODE,
   SHOW_RESULT,
   QUEUED
@@ -12,8 +13,14 @@ public static enum EventType {
 public class Event {
   private InteractiveElement element;
   private EventType eventType;
-  private int lineOfCode;
+  private int lineOfCode, distance;
   Event(InteractiveElement element, EventType eventType) {
+    this.element = element;
+    this.eventType = eventType;
+    lineOfCode = -1;
+  }
+  Event(int distance, InteractiveElement element, EventType eventType) {
+    this.distance = distance;
     this.element = element;
     this.eventType = eventType;
     lineOfCode = -1;
@@ -29,9 +36,13 @@ public class Event {
   EventType getEventType() {
     return eventType;
   }
+  int getDistance() {
+    return distance;
+  }
 }
 
 public class EventManager {
+  private boolean pause;
   private LinkedList<Event> queueEvent;
   private DataStructureInteractive dataStructureInteractive;
   private Solver solver;
@@ -42,6 +53,7 @@ public class EventManager {
     reset();
   }
   public void reset() {
+    pause = false;
     resultInteractive.reset();
     queueEvent = new LinkedList<Event>();
     time = Utility.TIME_BETWEEN_EVENTS;
@@ -55,8 +67,11 @@ public class EventManager {
   public void setSolver( Solver solver ) {
     this.solver = solver;
   }
+  public void setPause( ) {
+    pause = !pause;
+  }
   public void processEvent() {
-    if( queueEvent.size() == 0 ) {
+    if( queueEvent.size() == 0 || pause == true ) {
       return ;
     }
     if( time > 0 ) {
@@ -80,11 +95,15 @@ public class EventManager {
         break; 
       }
       case REMOVE_NODE: {
-        dataStructureInteractive.removeNode();
+        dataStructureInteractive.remove();
         break;
       }
       case ADD_NODE: {
-        dataStructureInteractive.addNode((Node)event.getElement());
+        dataStructureInteractive.add((Node)event.getElement());
+        break;
+      }
+      case ADD_STATE: {
+        dataStructureInteractive.add(new State(event.getDistance(),(Node)event.getElement()));
         break;
       }
       case QUEUED: {

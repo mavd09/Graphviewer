@@ -11,11 +11,12 @@ public class QueueInteractive extends InteractiveFrame implements DataStructureI
     nodesInQueue = new LinkedList<Integer>();
   }
   
-  void addNode(Node node) {
+  void add(Object obj) {
+    Node node = (Node) obj;
     nodesInQueue.add(node.nodeId);
   }
   
-  void removeNode() {
+  void remove() {
     nodesInQueue.poll();
   }
   
@@ -26,7 +27,9 @@ public class QueueInteractive extends InteractiveFrame implements DataStructureI
     pg.stroke(082E00);
     int side = 20;
     pg.fill(0);
+    pg.textSize(14);
     pg.text("Queue:",-100, side - side/3);
+    pg.textSize(10);
     for(int i = 0; i < nodesInQueue.size(); i++) {
       pg.fill(#058B00);
       pg.rect(i*side+2*i-50, 0, side, side);

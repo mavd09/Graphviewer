@@ -4,6 +4,7 @@ public interface Edge extends InteractiveElement {
   public void setFrom(Node from);
   public void setTo(Node to);
   public int getEdgeId();
+  public int getWeight();
   public boolean getDirected();
   public void setDeleted(boolean deleted);
 }
