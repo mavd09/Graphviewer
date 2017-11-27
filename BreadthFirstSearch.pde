@@ -1,7 +1,6 @@
 public class BreadthFirstSearch extends InteractiveFrame implements Solver {
   
   Graph graph;
-  Node source;
   EventManager eventManager;
   
   int currentLine;
@@ -18,10 +17,9 @@ public class BreadthFirstSearch extends InteractiveFrame implements Solver {
     "       add v to queue Q"
   };
   
-  public BreadthFirstSearch( Scene scene, Graph graph, Node source, EventManager eventManager ) {
+  public BreadthFirstSearch( Scene scene, Graph graph, EventManager eventManager ) {
     super(scene);
     this.graph = graph;
-    this.source = source;
     this.eventManager = eventManager;
     currentLine = -1;
     setShape("display");
@@ -47,7 +45,7 @@ public class BreadthFirstSearch extends InteractiveFrame implements Solver {
     pg.popStyle();
   }
   
-  public void solve( ) {
+  public void solve( Node source ) {
     TreeSet<Node> seen = new TreeSet<Node>();
     LinkedList<Node> q = new LinkedList<Node>();
     eventManager.addEvent(new Event(0,EventType.CODE));
@@ -58,6 +56,7 @@ public class BreadthFirstSearch extends InteractiveFrame implements Solver {
     q.add(source);
     seen.add(source);
     source.minDistance = 0;
+    eventManager.addEvent(new Event(source,EventType.SHOW_RESULT));
     while(q.size() > 0) {
       eventManager.addEvent(new Event(3,EventType.CODE));
       Node current = q.poll();
@@ -81,6 +80,7 @@ public class BreadthFirstSearch extends InteractiveFrame implements Solver {
           q.add(neighbor);
           seen.add(neighbor);
           neighbor.minDistance = current.minDistance+1;
+          eventManager.addEvent(new Event(neighbor,EventType.SHOW_RESULT));
         }
         eventManager.addEvent(new Event(graph.edges.get(edgeId), EventType.DEFAULT_EDGE));
       }

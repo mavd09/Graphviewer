@@ -18,6 +18,7 @@ GenericFrame[] genericFrames;
 Graph graph;
 EventManager eventManager;
 Solver solver;
+ResultInteractive resultInteractive;
 
 void settings() {
   size(WIDTH, HEIGHT, P2D);
@@ -39,14 +40,15 @@ void setup() {
   genericFrames = new GenericFrame[] {
     new GenericFrame(mainScene, new Vec(0, 0) ),
     new GenericFrame(mainScene, new Vec(5000, 5000) ),
-    new GenericFrame(mainScene, new Vec(0, 5000) )
+    new GenericFrame(mainScene, new Vec(0, 5000) ),
+    new GenericFrame(mainScene, new Vec(5000, 0) )
   };
   
-  mainScene.eye().interpolateTo(genericFrames[0], 1.0 );
+  mainScene.eye().interpolateTo(genericFrames[3], 1.0 );
   
   graph = new Graph();
-  
-  eventManager = new EventManager();
+  resultInteractive = new ResultInteractive(resultScene);
+  eventManager = new EventManager(resultInteractive);
   
   mainScene.setAxesVisualHint(false);
   mainScene.setGridVisualHint(false);
@@ -82,6 +84,8 @@ void draw() {
   mainCanvas.rect(genericFrames[1].position().x(),genericFrames[1].position().y(),1800,600);
   mainCanvas.text("Dijkstra", genericFrames[2].position().x()-250, genericFrames[2].position().y()-200);
   mainCanvas.rect(genericFrames[2].position().x(),genericFrames[2].position().y(),1800,600);
+  mainCanvas.text("Graphviewer", genericFrames[3].position().x()-350, genericFrames[3].position().y()-200);
+  mainCanvas.rect(genericFrames[3].position().x(),genericFrames[3].position().y(),1800,600);
   mainCanvas.popStyle();
   mainScene.drawFrames();  
   mainScene.endDraw();
@@ -98,8 +102,11 @@ void draw() {
   
   resultScene.beginDraw();
   resultCanvas.background(150);
+  resultScene.drawFrames();
   resultScene.endDraw();
   resultScene.display();
+  resultScene.setBoundingRect(new Vec(0, 20), new Vec(20, 0));
+  resultScene.showAll();
   
   pseudocodeScene.beginDraw();
   pseudocodeCanvas.background(200);
@@ -123,31 +130,46 @@ void mouseClicked() {
 
 void keyPressed() {
   if( key == '1' ) {
+    graph.reset();
+    resultInteractive.reset();
+    graph.setDirectedEdges(false);
+    graph.setWeightedEdges(false);
     mainScene.eye().interpolateTo(genericFrames[0], 1.0 );
+    eventManager.setDataStructure(new QueueInteractive(dataStructureScene));
+    solver = new BreadthFirstSearch( pseudocodeScene, graph, eventManager );
+    eventManager.setSolver(solver);
   } else if( key == '2' ) {
+    graph.reset();
+    resultInteractive.reset();
+    graph.setDirectedEdges(false);
+    graph.setWeightedEdges(false);
     mainScene.eye().interpolateTo(genericFrames[1], 1.0 );
+    eventManager.setDataStructure(new StackInteractive(dataStructureScene));
+    solver = new DepthFirstSearch( pseudocodeScene, graph, InteractiveData.getInstance().getLastPicked(), eventManager );
+    eventManager.setSolver(solver);
   } else if( key == '3' ) {
+    graph.reset();
+    resultInteractive.reset();
+    graph.setDirectedEdges(true);
+    graph.setWeightedEdges(true);
     mainScene.eye().interpolateTo(genericFrames[2], 1.0 );
   } else if(key == 'n') {
     InteractiveData.getInstance().setMode(Mode.INSERT_NODE);
   } else if(key == 'e') {
     InteractiveData.getInstance().setMode(Mode.INSERT_EDGE);
-  } else if(key == 'b') {
+  } else if(key == ' ') {
     if( InteractiveData.getInstance().getLastPicked() != null ) {
-      eventManager.setDataStructure(new QueueInteractive(dataStructureScene));
-      solver = new BreadthFirstSearch( pseudocodeScene, graph, InteractiveData.getInstance().getLastPicked(), eventManager );
-      eventManager.setSolver(solver);
-      solver.solve();
+      graph.reset();
+      resultInteractive.reset();
+      solver.solve(InteractiveData.getInstance().getLastPicked());
     }
   } else if(key == 'd') {
-    if( InteractiveData.getInstance().getLastPicked() != null ) {
-      eventManager.setDataStructure(new StackInteractive(dataStructureScene));
-      solver = new DepthFirstSearch( pseudocodeScene, graph, InteractiveData.getInstance().getLastPicked(), eventManager );
-      eventManager.setSolver(solver);
-      solver.solve();
-    }
+    graph.setDirectedEdges(true);
+  } else if(key == 'b') {
+    graph.setDirectedEdges(false);
   } else if( key == 'r' ) {
     graph.reset();
+    resultInteractive.reset();
   } else {
     InteractiveData.getInstance().setMode(Mode.EMPTY);
   }

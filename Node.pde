@@ -30,7 +30,12 @@ public class Node extends InteractiveFrame implements InteractiveElement, Compar
   
   public void play(ClickEvent event) {
     if(InteractiveData.getInstance().getMode() == Mode.INSERT_EDGE && InteractiveData.getInstance().getLastPicked() != null && InteractiveData.getInstance().getLastPicked().compareTo(this) != 0 ) {
-      Edge edge = new NonWeightedEdge(InteractiveData.getInstance().getEdgeCounter(), InteractiveData.getInstance().getLastPicked(), this, false, scene);
+      Edge edge = null;
+      if( graph.getWeightedEdges() ) {
+        
+      } else {
+        edge = new NonWeightedEdge(InteractiveData.getInstance().getEdgeCounter(), InteractiveData.getInstance().getLastPicked(), this, graph.getDirectedEdges(), scene);
+      }
       InteractiveData.getInstance().setEdgeCounter();
       graph.addEdge(edge);
       InteractiveData.getInstance().reset();

@@ -1,6 +1,5 @@
 public class QueueInteractive extends InteractiveFrame implements DataStructureInteractive {
   private LinkedList<Integer> nodesInQueue;
-  //private TreeMap<Integer,Integer> minimumDistance;
   
   QueueInteractive(Scene scene) {
     super(scene);
@@ -10,12 +9,10 @@ public class QueueInteractive extends InteractiveFrame implements DataStructureI
   
   void reset() {
     nodesInQueue = new LinkedList<Integer>();
-    //minimumDistance = new TreeMap<Integer, Integer>();
   }
   
   void addNode(Node node) {
     nodesInQueue.add(node.nodeId);
-    //minimumDistance.put(node.nodeId,node.minDistance);
   }
   
   void removeNode() {
@@ -24,9 +21,11 @@ public class QueueInteractive extends InteractiveFrame implements DataStructureI
   
   void display(PGraphics pg) {
     pg.pushStyle();
+    pg.background(100);
     pg.strokeWeight(1);
     pg.stroke(082E00);
     int side = 20;
+    pg.fill(0);
     pg.text("Queue:",-100, side - side/3);
     for(int i = 0; i < nodesInQueue.size(); i++) {
       pg.fill(#058B00);
@@ -34,17 +33,6 @@ public class QueueInteractive extends InteractiveFrame implements DataStructureI
       pg.fill(#FF9100);
       pg.text(""+ nodesInQueue.get(i),i*side + 2*i + side/3 - 50, side - side/3);
     }
-    /*int i = 0;
-    for(Map.Entry<Integer,Integer> entry : minimumDistance.entrySet()) {
-      Integer key = entry.getKey();
-      Integer value = entry.getValue();
-      pg.fill(#058B00);
-      pg.rect(i*side+2*i, side+2, side, side);
-      pg.fill(#FF9100);
-      pg.text(""+ value,i*side + 2*i + side/3, 2+2*side - side/3);
-      pg.text(""+ key,i*side + 2*i + side/3, 2+3*side - side/3);
-      i++;
-    }*/
     pg.popStyle();
   }
 }

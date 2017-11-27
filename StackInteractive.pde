@@ -21,9 +21,11 @@ public class StackInteractive extends InteractiveFrame implements DataStructureI
   
   void display(PGraphics pg) {
     pg.pushStyle();
+    pg.background(100);
     pg.strokeWeight(1);
     pg.stroke(082E00);
     int side = 20;
+    pg.fill(0);
     pg.text("Stack:",-100, side - side/3);
     for(int i = 0; i < nodesInQueue.size(); i++) {
       pg.fill(#058B00);

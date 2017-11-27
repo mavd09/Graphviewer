@@ -5,6 +5,7 @@ public static enum EventType {
   VISITED,
   ADD_NODE,
   REMOVE_NODE,
+  SHOW_RESULT,
   QUEUED
 }
 
@@ -34,11 +35,14 @@ public class EventManager {
   private LinkedList<Event> queueEvent;
   private DataStructureInteractive dataStructureInteractive;
   private Solver solver;
+  private ResultInteractive resultInteractive;
   int time;
-  EventManager() {
+  EventManager(ResultInteractive resultInteractive) {
+    this.resultInteractive = resultInteractive; 
     reset();
   }
   public void reset() {
+    resultInteractive.reset();
     queueEvent = new LinkedList<Event>();
     time = Utility.TIME_BETWEEN_EVENTS;
   }
@@ -89,6 +93,10 @@ public class EventManager {
       }
       case CODE: {
         solver.setCurrentLine(event.lineOfCode);
+        break;
+      }
+      case SHOW_RESULT: {
+        resultInteractive.addResult((Node)event.getElement());
         break;
       }
       default: {
