@@ -24,7 +24,7 @@ public class Node extends InteractiveFrame implements InteractiveElement, Compar
     pg.ellipse(0,0,2.0*Utility.RADIUS_NODE,2.0*Utility.RADIUS_NODE);
     pg.strokeWeight(1);
     pg.fill(0, 0, 20);
-    pg.text("" + nodeId, -Utility.RADIUS_NODE/2, Utility.RADIUS_NODE/2-1, 0);
+    pg.text("" + nodeId, -Utility.RADIUS_NODE/2-6, Utility.RADIUS_NODE/2+6, 0);
     pg.popStyle();
   }
   

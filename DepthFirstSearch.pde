@@ -1,4 +1,4 @@
-public class DepthFirstSearch implements Solver {
+public class DepthFirstSearch extends InteractiveFrame implements Solver {
   
   Graph graph;
   Node source;
@@ -8,21 +8,23 @@ public class DepthFirstSearch implements Solver {
   
   String[] pseudocode = { 
     "choose some starting vertex x",
-    "add x to queue Q",
+    "add x to stack S",
     "mark x",
-    "while Q nonempty",
-    "  choose vertex u from Q and remove it",
+    "while S nonempty",
+    "  choose vertex u from S and remove it",
     "  for each edge in adjacency list of u",
     "    if v is unmarked",
     "       mark v",
-    "       add v to queue Q"
+    "       add v to stack S"
   };
   
-  public DepthFirstSearch( Graph graph, Node source, EventManager eventManager ) {
+  public DepthFirstSearch( Scene scene, Graph graph, Node source, EventManager eventManager ) {
+    super(scene);
     this.graph = graph;
     this.source = source;
     this.eventManager = eventManager;
     currentLine = -1;
+    setShape("display");
   }
   
   public void setCurrentLine( int x ) {
@@ -48,24 +50,33 @@ public class DepthFirstSearch implements Solver {
   public void solve( ) {
     TreeSet<Node> seen = new TreeSet<Node>();
     LinkedList<Node> q = new LinkedList<Node>();
+    eventManager.addEvent(new Event(0,EventType.CODE));
     eventManager.addEvent(new Event(source, EventType.QUEUED));
+    eventManager.addEvent(new Event(1,EventType.CODE));
     eventManager.addEvent(new Event(source,EventType.ADD_NODE));
+    eventManager.addEvent(new Event(2,EventType.CODE));
     q.addLast(source);
     seen.add(source);
     source.minDistance = 0;
     while(q.size() > 0) {
+      eventManager.addEvent(new Event(3,EventType.CODE));
       Node current = q.pollLast();
+      eventManager.addEvent(new Event(4,EventType.CODE));
       eventManager.addEvent(new Event(current,EventType.PROCESSING));
       eventManager.addEvent(new Event(current,EventType.REMOVE_NODE));
       for(Integer edgeId : graph.adjacencyList.get(current)) {
+        eventManager.addEvent(new Event(5,EventType.CODE));
         eventManager.addEvent(new Event(graph.edges.get(edgeId), EventType.PROCESSING));
         Edge edge = graph.edges.get(edgeId);
         Node neighbor = edge.getFrom();
         if(neighbor.compareTo(current) == 0) {
           neighbor = edge.getTo();
         }
+        eventManager.addEvent(new Event(6,EventType.CODE));
         if(seen.contains(neighbor) == false) {
+          eventManager.addEvent(new Event(7,EventType.CODE));
           eventManager.addEvent(new Event(neighbor, EventType.QUEUED));
+          eventManager.addEvent(new Event(8,EventType.CODE));
           eventManager.addEvent(new Event(neighbor,EventType.ADD_NODE));
           q.addLast(neighbor);
           seen.add(neighbor);
@@ -75,6 +86,8 @@ public class DepthFirstSearch implements Solver {
       }
       eventManager.addEvent(new Event(current,EventType.VISITED));
     }
+    eventManager.addEvent(new Event(3,EventType.CODE));
+    eventManager.addEvent(new Event(-1,EventType.CODE));
   }
   
 }

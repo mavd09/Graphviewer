@@ -9,6 +9,12 @@ public class Graph {
     edges = new TreeMap<Integer, Edge>();
   }
   
+  public void reset() {
+    for( Map.Entry<Node, TreeSet<Integer>> entry : adjacencyList.entrySet() ) {
+      entry.getKey().setColor(Utility.DEFAULT_NODE_COLOR);
+    }
+  }
+  
   public void removeEdge(Integer edgeId) {
     Edge edge = edges.remove(edgeId); 
     adjacencyList.get(edge.getFrom()).remove(edge.getEdgeId());

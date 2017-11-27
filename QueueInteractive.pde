@@ -27,11 +27,12 @@ public class QueueInteractive extends InteractiveFrame implements DataStructureI
     pg.strokeWeight(1);
     pg.stroke(082E00);
     int side = 20;
+    pg.text("Queue:",-100, side - side/3);
     for(int i = 0; i < nodesInQueue.size(); i++) {
       pg.fill(#058B00);
-      pg.rect(i*side+2*i, 0, side, side);
+      pg.rect(i*side+2*i-50, 0, side, side);
       pg.fill(#FF9100);
-      pg.text(""+ nodesInQueue.get(i),i*side + 2*i + side/3, side - side/3);
+      pg.text(""+ nodesInQueue.get(i),i*side + 2*i + side/3 - 50, side - side/3);
     }
     /*int i = 0;
     for(Map.Entry<Integer,Integer> entry : minimumDistance.entrySet()) {

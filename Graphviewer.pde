@@ -142,10 +142,13 @@ void keyPressed() {
   } else if(key == 'd') {
     if( InteractiveData.getInstance().getLastPicked() != null ) {
       eventManager.setDataStructure(new StackInteractive(dataStructureScene));
-      solver = new DepthFirstSearch( graph, InteractiveData.getInstance().getLastPicked(), eventManager );
+      solver = new DepthFirstSearch( pseudocodeScene, graph, InteractiveData.getInstance().getLastPicked(), eventManager );
+      eventManager.setSolver(solver);
       solver.solve();
     }
-  }else {
+  } else if( key == 'r' ) {
+    graph.reset();
+  } else {
     InteractiveData.getInstance().setMode(Mode.EMPTY);
   }
 }
