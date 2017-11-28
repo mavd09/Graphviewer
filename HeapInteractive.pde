@@ -32,9 +32,9 @@ public class HeapInteractive extends InteractiveFrame implements DataStructureIn
     pg.textSize(8);
     for(int i = 1; i <= nodesInQueue.size(); i++) {
       pg.fill(#058B00);
-      pg.rect(i*side+2*i-70, 0, side, side);
+      pg.rect(i*side+2*i-72, 0, side, side);
       pg.fill(#FF9100);
-      pg.text(""+nodesInQueue.get(i).cost+","+nodesInQueue.get(i).node.nodeId,i*side + 2*i + side/3 - 72, side - side/3);
+      pg.text(""+nodesInQueue.get(i).cost+","+nodesInQueue.get(i).node.nodeId,i*side + 2*i + side/3 - 74, side - side/3);
     }
     pg.popStyle();
   }
